@@ -7,6 +7,24 @@ const PORT = 8000;
 
 app.use(express.urlencoded({ extended: false}));
 
+app.use((req, res, next) => {
+    console.log("Hello for middleware 01");
+    req.myUserName = "Azhar Ali";
+
+    fs.appendFile(
+        'log.txt', 
+        `${Date.now()}: ${req.ip} ${req.method}: ${req.path}\n`, 
+        (err, data) => {
+            next();
+        }
+    );
+});
+
+app.use((req, res, next) => {
+    console.log("Hello for middleware 02", req.myUserName);
+    next();
+});
+
 // ROUTES
 app.get('/users', (req, res) => {
     const html =
@@ -20,7 +38,8 @@ app.get('/users', (req, res) => {
 
 // GET
 app.get('/api/users', (req, res) => {
-    return res.json(users)
+    console.log("I am at get route", req.myUserName)
+    return res.json(users);
 });
 
 
