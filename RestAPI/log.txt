@@ -2,3 +2,11 @@
 1760380390753: GET: /api/users/999
 1760380460050: ::1 GET: /api/users
 1760380462673: ::1 GET: /api/users/999
+1760452636595: ::1 GET: /api/users
+1760452913984: ::1 GET: /api/users
+1760453023610: ::1 GET: /api/users
+1760453044972: ::1 GET: /api/users
+1760454060679: ::1 POST: /api/users
+1760454408284: ::1 POST: /api/users
+1760454660014: ::1 GET: /api/users/9996
+1760454674719: ::1 GET: /api/users/9996
