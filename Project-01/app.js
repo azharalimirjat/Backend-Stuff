@@ -7,7 +7,7 @@ const userRouter = require('./routes/user');
 const app = express();
 const PORT = 8000;
 
-connectMongoDB('mongodb://localhost:27017/youtube-app')
+connectMongoDB('mongodb://localhost:27017/youtube-app') 
 .then(() => {
     console.log('MongoDB Connected!')
 })
@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 
 
 app.use(logReqRes('log.txt'));
-app.use((req, res, next) => {});
+// app.use((req, res, next) => {});
 
 // Routes
 app.use('/api/users', userRouter);
