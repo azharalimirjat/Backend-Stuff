@@ -16,7 +16,6 @@ app.use(express.urlencoded({ extended: false }));
 
 
 app.use(logReqRes('log.txt'));
-// app.use((req, res, next) => {});
 
 // Routes
 app.use('/api/users', userRouter);
