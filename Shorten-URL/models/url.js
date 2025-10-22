@@ -11,6 +11,7 @@ const urlSchema = new mongoose.Schema(
         redirectURL: {
             type: String,
             required: true,
+            unique: true,
         },
 
         visitHistory: [{ 
