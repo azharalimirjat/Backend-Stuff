@@ -1,6 +1,7 @@
 const express = require('express');
 const urlRouter = require('./routes/url');
 const URL = require('./models/url')
+const path = require('path');
 
 const { connectToMongoDB , } = require('./connect');
 
@@ -10,13 +11,42 @@ const PORT = 8001;
 connectToMongoDB('mongodb://localhost:27017/shorten-url')
 .then(() => console.log('Connected to MongoDB.'));
 
+app.set('view engine', 'ejs');
+app.set('views', path.resolve('./views'));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
+
+// app.get('/test', async (req, res) => {
+//     const allUrls = await URL.find({});
+
+//     return res.end(`
+//         <html>
+//             <head></head>
+//             <body>
+//                 <ol>
+//                     ${allUrls.map(url => 
+//                         `<li>
+//                             ${url.shortId} - ${url.redirectURL} - ${url.visitHistory.length}
+//                         </li>`
+//                     )}
+//                 </ol>
+//             </body?
+//         </html>
+//     `)
+// });
+
+
+app.get('/test', async (req, res) => {
+    const allUrls = await URL.find({});
+
+    return res.render('home');
+});
 
 
 app.use('/url', urlRouter);
 
-app.get('/:shortId', async (req, res) =>    
+app.get('/url/:shortId', async (req, res) =>    
     {
         const shortId = req.params.shortId;
         entry = await URL.findOneAndUpdate(
