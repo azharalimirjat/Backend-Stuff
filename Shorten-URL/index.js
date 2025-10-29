@@ -3,10 +3,12 @@ const urlRouter = require('./routes/url');
 const URL = require('./models/url')
 const path = require('path');
 const staticRoute = require('./routes/staticRouter');
+const cookieParser = require('cookie-parser');
 
 const userRoute = require('./routes/user');
 
 const { connectToMongoDB , } = require('./connect');
+const { restrictToLoggedInUserOnly, checkAuth} = require('./middlewares/auth');
 
 const app = express();
 const PORT = 8001;
@@ -19,39 +21,12 @@ app.set('views', path.resolve('./views'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); 
+app.use(cookieParser());
 
 
-// app.get('/test', async (req, res) => {
-//     const allUrls = await URL.find({});
-
-//     return res.end(`
-//         <html>
-//             <head></head>
-//             <body>
-//                 <ol>
-//                     ${allUrls.map(url => 
-//                         `<li>
-//                             ${url.shortId} - ${url.redirectURL} - ${url.visitHistory.length}
-//                         </li>`
-//                     )}
-//                 </ol>
-//             </body?
-//         </html>
-//     `)
-// });
-
-
-// app.get('/test', async (req, res) => {
-//     const allUrls = await URL.find({});
-//     return res.render('home', {
-//         urls: allUrls,
-//     });
-// });
-
-
-app.use('/url', urlRouter);
+app.use('/url', restrictToLoggedInUserOnly ,urlRouter);
 app.use('/user', userRoute);
-app.use('/', staticRoute);
+app.use('/', checkAuth ,staticRoute);
 
 app.get('/url/:shortId', async (req, res) =>    
     {
