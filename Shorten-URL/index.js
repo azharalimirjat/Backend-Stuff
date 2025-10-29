@@ -4,6 +4,8 @@ const URL = require('./models/url')
 const path = require('path');
 const staticRoute = require('./routes/staticRouter');
 
+const userRoute = require('./routes/user');
+
 const { connectToMongoDB , } = require('./connect');
 
 const app = express();
@@ -48,7 +50,7 @@ app.use(express.urlencoded({ extended: false }));
 
 
 app.use('/url', urlRouter);
-
+app.use('/user', userRoute);
 app.use('/', staticRoute);
 
 app.get('/url/:shortId', async (req, res) =>    
@@ -69,4 +71,4 @@ app.get('/url/:shortId', async (req, res) =>
     res.redirect(entry.redirectURL);
 });
 
-app.listen(PORT, () => console.log('Server Started!'));
+app.listen(PORT, () => console.log('Server for Shorten URL Started!'));
